@@ -26,17 +26,6 @@ public class HttpServer {
 		Socket clientSocket = serverSocket.accept();
 		logger.info(dayTime.format(new Date(System.currentTimeMillis())) + "client connection");
 		
-//		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//		String line = null;
-//		while((line = in.readLine()) != null){
-//			
-//			if("".equals(line)){
-//				break;
-//			}
-//			logger.info(line);
-//		}
-		
-		
 		RequestHandler requestHandler = new RequestHandler();
 		Request request = requestHandler.handle(clientSocket);
 		logger.info(request.toString());

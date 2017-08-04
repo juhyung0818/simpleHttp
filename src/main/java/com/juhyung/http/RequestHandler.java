@@ -18,11 +18,10 @@ public class RequestHandler {
 		Request request = new Request();
 		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-		request.parseRequestLine(in.readLine(), in.readLine());
+		request.parseRequestLine(in.readLine().split("/")[0], in.readLine());
 		// headers
 		String line = null;
 		while ((line = in.readLine()) != null && !"".equals(line)) {
-			System.out.println(line.split(":")[0]+" "+ line.split(":")[1]);
 			request.addHeader(line.split(":")[0], line.split(":")[1]);
 		}
 
