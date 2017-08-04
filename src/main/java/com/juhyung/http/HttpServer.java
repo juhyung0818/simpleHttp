@@ -16,28 +16,31 @@ public class HttpServer {
 
 	private static String HOST = "127.0.0.1"; //localhost 
 	private static int PORT = 8080;
+	private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 	
 	public void run() throws Exception{
 		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
-		Logger logger = LoggerFactory.getLogger(HttpServer.class);
-		
 		ServerSocket serverSocket = new ServerSocket(PORT);
 		logger.info("server start");
 		Socket clientSocket = serverSocket.accept();
 		logger.info(dayTime.format(new Date(System.currentTimeMillis())) + "client connection");
 		
-		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		PrintWriter out = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+//		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//		String line = null;
+//		while((line = in.readLine()) != null){
+//			
+//			if("".equals(line)){
+//				break;
+//			}
+//			logger.info(line);
+//		}
 		
-		String line = null;
 		
-		while((line = in.readLine()) != null){
-			logger.info(line);
-			if("".equals(line)){
-				break;
-			}
-		}
+		RequestHandler requestHandler = new RequestHandler();
+		Request request = requestHandler.handle(clientSocket);
+		logger.info(request.toString());
+		
 		
 		clientSocket.close();
 		serverSocket.close();
